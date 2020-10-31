@@ -1,0 +1,82 @@
+---
+title: "lab4_part2"
+author: "Kerry Nixon"
+date: "10/31/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Part 2: Two-sample t-test
+
+```{r}
+compact_suv <- mpg %>% 
+  filter(class %in% c("compact", "suv"))
+```
+
+
+## Exploratory Data Visualization
+
+Exploratory Histogram:
+```{r}
+ggplot(data = compact_suv, aes( x = cty)) +
+  geom_histogram(bins = 15) +
+  facet_wrap(~class)
+```
+
+### Making a QQ Plot (Quantile-Quantile Plot)
+
+The more linear the relationship, the closer your smaple is to normal distribution. (Unless you specify a different distribution)
+
+```{r}
+
+ggplot(data = compact_suv, aes(sample = cty)) +
+  geom_qq() +
+  facet_wrap(~class)
+
+```
+
+### Descriptive Statistics
+
+```{r}
+
+car_stats <- compact_suv %>% 
+  group_by(class) %>% 
+  summarize(mean_city = mean(cty),
+            sd_city = sd(cty),
+            n = n())
+
+car_stats
+
+```
+
+### 2-sample t-test
+
+
+Create vectors containing observations for each sample (city gas mileage)
+```{r}
+compact_sample <- compact_suv %>% 
+  filter(class == "compact") %>% 
+  pull(cty)
+
+suv_sample <- compact_suv %>% 
+  filter(class == "suv") %>% 
+  pull(cty)
+
+t.test(x = compact_sample, y = suv_sample)
+
+
+```
+
+
+
+
+
+
+
+
+
+
