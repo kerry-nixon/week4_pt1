@@ -1,7 +1,3 @@
-# week4_pt1
-
-code_along assignment
-
-## Week 4
+## Week 4: code_along lab
 
 T-Test practice
